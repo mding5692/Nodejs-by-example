@@ -1,2 +1,3 @@
-# simple-node-server
-Making a simple server running on node.js
+# Nodejs-by-example
+
+Writing out server-side javascript so that I can refer to it later on to refresh memory
