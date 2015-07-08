@@ -14,3 +14,9 @@ module.exports = {
 
 // this works too  
 exports.a = function() { console.log(1); };
+
+/* how u call these modules:
+
+  require(./modules);  
+  
+  don't need .js extension */
