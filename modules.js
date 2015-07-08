@@ -19,4 +19,7 @@ exports.a = function() { console.log(1); };
 
   require(./modules);  
   
-  don't need .js extension */
+  don't need .js extension 
+  
+  NOTE: relative paths are required for file-base modules, aka yours or hardcoded as non-relative paths are reserved for core and node_modules
+  */
