@@ -50,3 +50,28 @@ var connect = require('connect');
 connect()
 .use(logit)
 .listen(3000);
+
+// mounting middleware = using optional first argument of use() to specify endpoint for which the specified middleware will be triggered
+// for example we want to echo only when requests come for "/echo"
+
+function echo(req, res, next) {
+  req.pipe(res);
+}
+var connect = require('connect');
+connect()
+.use('/echo', echo)
+.use(function (req, res) { res.end('Responded to /echo!'); })
+.listen(3000);
+
+// can also use the above as an object, have to use HANDLE method
+// creates echo object
+var echo = {
+  handle: function (req, res, next) { // the handle method for object
+    req.pipe(res);
+  }
+};
+// calls function when echo is requested
+var connect = require('connect');
+connect()
+.use(echo)
+.listen(3000);
