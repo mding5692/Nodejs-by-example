@@ -29,3 +29,24 @@ var app = connect()
 .listen(3000);
 console.log('server running on port 3000');
 
+
+// an example of connect displaying client request back to client
+function echo(req, res, next) {
+  req.pipe(res);
+}
+var connect = require('connect');
+connect()
+.use(echo)
+.listen(3000);
+
+// an example of a logger
+var util = require('util');
+// a simple logging middleware
+function logit(req, res, next) {
+  util.log(util.format('Request recieved: %s, %s', req.method, req.url));
+  next();
+}
+var connect = require('connect');
+connect()
+.use(logit)
+.listen(3000);
