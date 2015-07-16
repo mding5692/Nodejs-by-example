@@ -86,3 +86,46 @@ connect()
 // then moves to a page
 .use(function (req, res) { res.end('Public') })
 .listen(3000);
+
+// also can raise a connect error
+// next function supports having taking an optional argument which is used as an error message
+// also the next middleware won't be called and server receives a 500 error (INTERNAL SERVER ERROR)
+connect()
+.use(function (req, res, next) { next('An error has occurred!') })
+.use(function (req, res, next) { res.end('I will never get called'); })
+.listen(3000);
+
+// for calling other middleware after an error (all errors before this will be used)
+connect()
+.use(function (req, res, next) { next(new Error('Big bad error details')); })
+.use(function (req, res, next) { res.end('I will never get called'); })
+.use(function (err, req, res, next) { // where error is also taken as an argument
+  // Log the error on the server
+  console.log('Error handled:', err.message);
+  console.log('Stacktrace:', err.stack);
+  // inform the client
+  res.writeHead(500);
+  res.end('Unable to process the request'); // this is the only thing printed out on command line
+})
+
+// an example of error handler which doesn't crash your server
+var connect = require('connect');
+connect()
+.use(function () { throw new Error('Big bad error details'); })
+.use(function (req, res, next) { res.end('I will never get called'); })
+.use(function (err, req, res, next) {
+  console.log('Error handled:', err.message);
+  res.writeHead(500);
+  res.end('Server error!');
+})
+.listen(3000);
+
+// below indicates if there was an error or not
+connect()
+.use(function (req, res, next) { next(); })
+.use(function (err, req, res, next) {
+  res.end('Error occured!'); // calls if there is an error
+})
+.use(function (req, res, next) { res.end('No error'); }) // else it says no error
+.listen(3000);
+.listen(3000);
