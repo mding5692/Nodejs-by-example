@@ -37,3 +37,69 @@ var app = express()
 .listen(3000);
 
 // serve-index module shows the contents of the directory
+
+/* The body-parser module is very useful for parsing your input into JSON */
+
+var express = require('express');
+var bodyParser = require('body-parser');
+var app = express()
+.use(bodyParser())
+.use(function (req, res) {
+  if (req.body.foo) {
+    res.end('Body parsed! Value of foo: ' + req.body.foo);
+  }
+  else {
+    res.end('Body does not have foo!');
+    }
+})
+.use(function (err, req, res, next) {
+  res.end('Invalid body!');
+})
+.listen(3000);
+
+
+// You can use express to set cookies
+// the below code will set a cookie with a name called foo
+var express = require('express');
+var app = express()
+.use(function (req, res) {
+  res.cookie('name', 'foo');
+  res.end('Hello!');
+})
+.listen(3000);
+
+// theres also the cookie-parser module
+var express = require('express');
+var cookieParser = require('cookie-parser');
+var app = express()
+.use(cookieParser())
+.use(function (req, res) {
+  if (req.cookies.name) {
+    console.log('User name:', req.cookies.name);
+  }
+  else {
+  res.cookie('name', 'foo');
+  }
+res.end('Hello!');
+})
+.listen(3000);
+// above saves the username to the cookies name or else it is just foo
+
+
+var express = require('express');
+var cookieParser = require('cookie-parser');
+var app = express()
+.use(cookieParser())
+.use('/toggle', function (req, res) {
+  if (req.cookies.name) {
+    res.clearCookie('name');
+    res.end('name cookie cleared! Was:' + req.cookies.name);
+  }
+  else {
+  res.cookie('name', 'foo');
+  res.end('name cookie set!');
+  }
+})
+.listen(3000);
+// when you visit localhost/toggle, it will either set or clear the cookie
+
