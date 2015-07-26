@@ -103,3 +103,54 @@ var app = express()
 .listen(3000);
 // when you visit localhost/toggle, it will either set or clear the cookie
 
+/** Express response object **/
+// simple way to set a response
+res.set('Content-Type', 'text/plain');
+res.set({
+  'Content-Type': 'text/plain',
+  'Content-Length': '123',
+  'ETag': '12345'
+})  
+
+// also has a way of chaining after the status
+res.status(200).end('Hello world!');
+
+// getter method for response object
+res.get('content-Type'); // "text/plain"
+
+// sets content type
+res.type('html');
+
+// sending redirect 
+res.redirect([status], url)
+// examples below
+res.redirect('http://example.com'); // absolute
+res.redirect('/login'); // relative to site root
+res.redirect('../bar'); // relative to current url
+res.redirect('foo/bar'); // relative to middleware mount point
+
+// Also the send function, very powerful
+res.send(404, 'These are not the droids you are looking for'); // 404 status
+res.send({ some: 'json' }); // for js objects, type is automatically set as json
+res.send(200); // can also just send a status code if its well known
+
+
+/** Express Request Object **/
+// gets the type of request
+req.get('Content-Type'); // "text/plain"
+// or the is method, think jquery
+req.is('json'); // tests to see if it is the content-type
+// use req.secure to see if sent over https or not
+req.secure; // true if yes, false otherwise
+// grabbing the query parameters
+// example below
+// GET /shoes?order=desc&shoe[color]=blue&shoe[type]=converse
+req.query.order // "desc"
+req.query.shoe.color // "blue"
+
+// getting the path before query
+// GET /users?sort=desc
+req.path // "/users"
+
+// req.url only returns where you're currently at
+// for absolute use req.originalUrl
