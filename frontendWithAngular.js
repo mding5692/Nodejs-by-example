@@ -112,3 +112,28 @@ app.use(express.static(__dirname + '/public'))
     }
   }
 }]);
+
+// What the html would look like, uses Bootstrap for CSS
+<body ng-controller="MainController">
+<!-- Our HTML -->
+  <div class="container">
+    <h1>List</h1>
+    <!-- Existing items rows -->
+    <div class="row">
+      <div ng-repeat="item in vm.list track by item._id" style="padding:10px">
+        <button class="btn btn-danger" ng-click="vm.removeItem(item)">x</button>
+        {{item.details}}
+      </div>
+    </div>
+<!-- New Item row -->
+    <div class="row">
+      <form role="form">
+        <div class="form-group">
+          <label for="newItemDetails">New Item Details:</label>
+          <input type="text" class="form-control" placeholder="Details of new todo item" ng-model="vm.newItemDetails">
+        </div>
+        <button type="submit" class="btn btn-primary"ng-click="vm.addItem()"ng-disabled="!vm.newItemDetails">Add</button>
+      </form>
+    </div>
+  </div>
+</body>
