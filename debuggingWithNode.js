@@ -38,3 +38,35 @@ function bar() {
   foo();
 }
 bar();
+
+// You can also use console.error which prints out an stderr
+console.error("someError");
+
+/* Nodejs also has a debugger that you can start like this:
+
+==> node debug script.js
+
+debug starts your app and then stops before your first line
+
+It uses these commands :
+
+* c = continue execution
+* n = next step/step over
+* restart = restarts your script
+
+// also these as well in observer mode
+
+• watch(expression:string) adds a watch
+• unwatch(expression:string) removes a watch
+• repl open the Node.js REPL with current context. Press Ctrl+C to exit the REPL.
+• bt backtrace, prints the call-stack
+
+*/
+
+
+// You can also start debugger programatically by using debugger statement
+for (var index = 0; index < 10; index++) {
+  var message = 'Loop ' + index;
+  debugger; // starts up the debugger
+  console.log(message);
+}
